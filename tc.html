@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Test Suite | Home</title>
+  <link rel="stylesheet" href="css/foundation.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/jsoneditor.min.css"/>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular.min.js"></script>
+  <!-- for read and write cookies in browser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-cookies.min.js"></script>
+  <!-- for interaction support with RESTful via $resource service -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-resource.min.js"></script>
+  <!-- for deeplinking -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.min.js"></script>
+  <!-- sanitize html -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-sanitize.min.js"></script>
+  <!-- for touch devices -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-touch.min.js"></script>
+
+  <script src="https://cdn.rawgit.com/josdejong/jsoneditor/master/dist/jsoneditor.min.js"></script>
+  <script src="https://cdn.rawgit.com/angular-tools/ng-jsoneditor/master/ng-jsoneditor.js"></script>
+
+</head>
+<body>
+  <!-- menu -->
+  <div class="title-bar" data-responsive-toggle="example-menu" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">Menu</div>
+  </div>
+
+  <div class="top-bar" id="example-menu">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text"><a href="index.html">Home</a></li>
+        <li class="has-submenu">
+          <a href="#">Manage</a>
+          <ul class="submenu menu vertical" data-submenu>
+            <li><a href="ts.html">Test Suite</a></li>
+            <li><a href="tc.html">Test Case</a></li>
+          </ul>
+        </li>
+        <li><a href="execute.html">Execute</a></li>
+        <li><a href="stats.html">Stats</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- create/save pop up modal -->
+  <div class="tiny reveal" id="newModal" data-reveal>
+    <fieldset class="large-12 columns fieldset">
+      <legend>Create/Update Test Suite</legend>
+      <form data-abide novalidate>
+        <div data-abide-error class="alert callout" style="display: none;">
+          <p><i class="fi-alert"></i> There are some errors in your form.</p>
+        </div>
+        <!-- to use autoincrement based on number in the list -->
+        <div class="large-12 columns">
+          <label>ID
+            <input type="number" required pattern="number" readonly>
+          </label>
+        </div>
+        <div class="large-12 columns">
+          <label>Name
+            <input type="text" required>
+            <span class="form-error">
+              Please fill this in.
+            </span>
+          </label>
+        </div>
+        <div class="large-12 columns">
+          <label>Description
+            <textarea data-abide-ignore></textarea>
+          </label>
+        </div>
+
+        <div class="large-12 large-centered columns">
+          <button class="button" type="submit" value="Save">Save</button>
+          <button class="button" type="reset" value="Reset">Reset</button>
+        </div>
+      </form>
+    </fieldset>
+
+    <button class="close-button" data-close aria-label="Close reveal" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="row"><ul class="tabs" data-tabs id="tc-tabs">
+    <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Create</a></li>
+    <li class="tabs-title"><a href="#panel2">Edit</a></li>
+  </ul></div>
+
+  <!-- json editor -->
+  <div class="tabs-content" data-tabs-content="tc-tabs">
+    <div class="tabs-panel is-active" id="panel1">
+      <div class="row">
+        <div ng-app="ngApp" ng-controller="ngCtrl">
+          <div class="large-7 columns">
+            <div ng-jsoneditor="onLoad" ng-model="obj.data" options="obj.options" style="height: 400px;"></div>
+            <br/><p><button type="button" class="secondary button" ng-click="changeOptions()">Toggle</button>
+            <a data-toggle="newModal"><button type=button class="success button">Save</button></a></p>
+          </div>
+          <!-- live json -->
+          <div class="large-5 columns">
+            <legend><strong>JSON Code</strong></legend>
+            <pre class="large-12 columns">{{pretty(obj.data)}}</pre>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- for json editor -->
+      <script>
+      var json = {"Array": [1, 2, 3], "Boolean": true, "Null": null, "Number": 123, "Object": {"a": "b", "c": "d"}, "String": "Hello World"};
+
+      angular.module('ngApp', ['ng.jsoneditor']).controller('ngCtrl', function ($scope) {
+        $scope.obj = {data: json, options: {mode: 'tree'}};
+        $scope.onLoad = function (instance) {
+          instance.expandAll();
+        };
+        $scope.changeData = function () {
+          $scope.obj.data = {foo: 'bar'};
+        };
+        $scope.changeOptions = function () {
+          $scope.obj.options.mode = $scope.obj.options.mode == 'tree' ? 'code' : 'tree';
+        };
+
+        //other
+        $scope.pretty = function (obj) {
+          return angular.toJson(obj, true);
+        }
+      });
+      </script>
+    </div>
+    <div class="tabs-panel" id="panel2">
+      <!-- create and edit form -->
+      <div class="row">
+        <fieldset class="medium-6 columns fieldset">
+          <legend>Edit Test Case</legend>
+          <form data-abide novalidate>
+            <div data-abide-error class="alert callout" style="display: none;">
+              <p><i class="fi-alert"></i> There are some errors in your form.</p>
+            </div>
+            <!-- to use autoincrement based on number in the list -->
+            <div class="large-12 columns">
+              <label>ID
+                <input type="number" required pattern="number" readonly>
+              </label>
+            </div>
+            <!-- name -->
+            <div class="large-12 columns">
+              <label>Name
+                <input type="text" required>
+                <span class="form-error">
+                  Please fill this in.
+                </span>
+              </label>
+            </div>
+            <!-- description -->
+            <div class="large-12 columns">
+              <label>Description
+                <textarea data-abide-ignore></textarea>
+              </label>
+            </div>
+            <!-- form buttons -->
+            <div class="large-12 large-centered columns">
+              <button class="button" type="submit" value="Save">Save</button>
+              <button class="button" type="reset" value="Reset">Reset</button>
+            </div>
+          </form>
+        </fieldset>
+        <!-- padding column -->
+        <div class="medium-1 columns"></div>
+        <!-- expandable list -->
+        <fieldset class="medium-5 columns fieldset">
+          <legend>Test Case List</legend>
+          <ul class="accordion accordion-scrollbar" data-accordion data-allow-all-closed="true" data-accordion role="tablist" >
+            <li class="accordion-item">
+              <!-- The tab title needs role="tab", an href, a unique ID, and aria-controls. -->
+              <a href="#panel1d" role="tab" class="accordion-title" id="panel1d-heading" aria-controls="panel1d">Test Case 1</a>
+              <!-- The content pane needs an ID that matches the above href, role="tabpanel", data-tab-content, and aria-labelledby. -->
+              <div id="panel1d" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel1d-heading">
+                <div class="row">
+                  <div class="large-12 columns"><span class="info label">Description:</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliq</div>
+                  </div>              
+                  <div class="row large-12 columns button-group">
+                    <button type="button" class="small success button">Edit</button>
+                    <button type="button" class="alert small button">Delete</button>
+                  </div>
+                </li>
+                <li class="accordion-item">
+                  <!-- The tab title needs role="tab", an href, a unique ID, and aria-controls. -->
+                  <a href="#panel2d" role="tab" class="accordion-title" id="panel2d-heading" aria-controls="panel2d">Test Case 2</a>
+                  <!-- The content pane needs an ID that matches the above href, role="tabpanel", data-tab-content, and aria-labelledby. -->
+                  <div id="panel2d" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel1d-heading">
+                    <div class="row">
+                      <div class="large-12 columns"><span class="info label">Description:</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliq</div>
+                      </div>              
+                      <div class="row large-12 columns button-group">
+                        <button type="button" class="small success button">Edit</button>
+                        <button type="button" class="alert small button">Delete</button>
+                      </div>
+                    </li>
+                  </ul>
+                </fieldset>
+              </div>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/foundation/6.1.0/foundation.min.js"></script>
+
+            <!-- initiate foundation modules -->
+            <script>
+            $(document).foundation();
+
+            </script>
+          </body>
+          </html>

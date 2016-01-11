@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stats | Home</title>
+  <link rel="stylesheet" href="css/foundation.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular.min.js"></script>
+  <!-- for read and write cookies in browser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-cookies.min.js"></script>
+  <!-- for interaction support with RESTful via $resource service -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-resource.min.js"></script>
+  <!-- for deeplinking -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.min.js"></script>
+  <!-- sanitize html -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-sanitize.min.js"></script>
+  <!-- for touch devices -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-touch.min.js"></script>
+
+  <script>
+  angular.module('sortApp', [])
+
+  .controller('mainController', function($scope) {
+  $scope.sortType     = 'executedate'; // set the default sort type
+  $scope.sortReverse  = true;  // set the default sort order
+  $scope.searchName   = '';     // set the default search/filter term
+  
+  // create the list of executed case
+  $scope.executed = [
+  { name: 'Components', executedate: new Date('1 Jan 2016, 12:00 PM'), testsuite: 'Test Suite 1', step: '10', errormsg: 'Error 404', timetaken: new Date('10:00') },
+  { name: 'About page', executedate: new Date('7 Jan 2016, 12:00 PM'), testsuite: 'Test Suite 4', step: '1', errormsg: 'Error 403', timetaken: new Date('01:00')},
+  { name: 'Contact Us form', executedate: new Date('4 Jan 2016, 12:00 PM'), testsuite: 'Test Suite 1', step: '', errormsg: '', timetaken: new Date('1:10:00')},
+  { name: 'Homepage', executedate: new Date('10 Jan 2016, 12:00 PM'), testsuite: 'Test Suite 2', step: '9', errormsg: 'Timeout', timetaken: new Date('30:00')}
+  ];
+  
+  $scope.remove = function(item) { 
+    var index = $scope.caselist.indexOf(item);
+    $scope.caselist.splice(index, 1);     
+  };
+
+  $scope.select = function(testcase) {
+    $scope.selected = testcase;
+  };
+
+});
+
+
+</script>
+
+</head>
+<body>
+  <!-- menu -->
+  <div class="title-bar" data-responsive-toggle="example-menu" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">Menu</div>
+  </div>
+
+  <div class="top-bar" id="example-menu">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text"><a href="index.html">Home</a></li>
+        <li class="has-submenu">
+          <a href="#">Manage</a>
+          <ul class="submenu menu vertical" data-submenu>
+            <li><a href="ts.html">Test Suite</a></li>
+            <li><a href="tc.html">Test Case</a></li>
+          </ul>
+        </li>
+        <li><a href="execute.html">Execute</a></li>
+        <li><a href="stats.html">Stats</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container" ng-app="sortApp" ng-controller="mainController">
+    <!-- create and edit form -->
+    <div class="row">
+      <fieldset class="medium-6 columns fieldset">
+        <legend>Edit Test Case</legend>
+        <form>
+          <!-- name -->
+          <div class="large-12 columns">
+            <label>Name
+            </label>
+            <strong ng-if="selected.name">{{selected.name}}</strong><strong ng-if="!selected.name">&nbsp;</strong>
+          </div>
+          <!-- description -->
+          <div class="large-12 columns">
+            <label>Test Suite
+            </label>
+            <strong ng-if="selected.testsuite">{{selected.testsuite}}</strong><strong ng-if="!selected.testsuite">&nbsp;</strong>
+          </div>
+          <div class="large-6 columns">
+            <label>Error
+            </label>
+            <strong ng-if="selected.errormsg">{{selected.errormsg}}</strong><strong ng-if="!selected.errormsg">&nbsp;</strong>
+          </div>
+          <div class="large-6 columns">
+            <label>Step
+            </label>
+            <strong ng-if="selected.step">{{selected.step}}</strong><strong ng-if="!selected.step">&nbsp;</strong>
+          </div>
+          <div class="large-12 columns">
+            <label>Time Taken
+            </label>
+            <!-- to correct the date format -->
+            <strong ng-if="selected.timetaken">{{selected.timetaken | date: 'H:mm:ss'}}</strong><strong ng-if="!selected.timetaken">&nbsp;</strong>
+          </div>
+        </form>
+      </fieldset>
+      <!-- expandable list -->
+      <fieldset class="medium-6 columns fieldset">
+        <legend>Executed Test Case</legend>
+        <div class="row large-12 columns">
+          <form>
+            <input type="text" class="form-control" placeholder="Search Case" ng-model="searchName">   
+          </form>
+        </div>
+
+        <table class="stack large-12 columns">
+          <thead>
+            <tr>
+              <td>
+                <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                  Name
+                  <span ng-show="sortType == 'name' && !sortReverse"></span>
+                  <span ng-show="sortType == 'name' && sortReverse"></span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="sortType = 'date'; sortReverse = !sortReverse">
+                  Date
+                  <span ng-show="sortType == 'date' && !sortReverse"></span>
+                  <span ng-show="sortType == 'date' && sortReverse"></span>
+                </a>
+              </td>
+              <td>
+                <span>
+                  Action
+                  <span ng-show="sortType == 'date' && !sortReverse"></span>
+                  <span ng-show="sortType == 'date' && sortReverse"></span>
+                </span>
+              </td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr ng-repeat="testcase in executed | orderBy:sortType:sortReverse | filter:searchName">
+              <td>{{ testcase.name }}</td>
+              <td>{{ testcase.executedate | date: 'd MMM y, h:mm a'}}</td>
+              <td><div class="button-group tiny"><button class="success button" ng-click="select(testcase)">View</button>
+                <!-- delete yet to work till live data is inserted -->
+                <button class="alert button" ng-click="remove(testcase)">Delete</button></div></td>
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/foundation/6.1.0/foundation.min.js"></script>
+  <!-- initiate foundation modules -->
+  <script>
+  $(document).foundation();
+
+  </script>
+</body>
+</html>

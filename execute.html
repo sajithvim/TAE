@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Execute | Home</title>
+  <link rel="stylesheet" href="css/foundation.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular.min.js"></script>
+  <!-- for read and write cookies in browser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-cookies.min.js"></script>
+  <!-- for interaction support with RESTful via $resource service -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-resource.min.js"></script>
+  <!-- for deeplinking -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.min.js"></script>
+  <!-- sanitize html -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-sanitize.min.js"></script>
+  <!-- for touch devices -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-touch.min.js"></script>
+
+  <!-- https://github.com/angular-ui/ui-sortable -->
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+  <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
+  <script>
+  var myapp = angular.module('sortableApp', ['ui.sortable']);
+
+
+  myapp.controller('sortableController', function ($scope) {
+    var tmpList = [];
+
+    $scope.rawScreens = 
+    [{
+      title: 'Test Suite 1',
+      subtitle: 'TC1',
+    }, {
+     title: 'Test Suite 1',
+      subtitle: 'TC5',
+    }, {
+      title: 'Test Suite 3',
+      subtitle: 'TC8',
+    }, {
+      title: 'Test Suite 4',
+      subtitle: '',
+    }];
+      
+    // $scope.nosubtitle = $filter('filter')($scope.rawScreens, {subtitle: ''})[0];
+
+    $scope.list1 = $scope.rawScreens;
+
+    $scope.sortingLog = [];
+
+    $scope.sortableOptions = {
+      placeholder: "app",
+      connectWith: ".apps-container",
+
+    };
+
+    $scope.reset = function() {
+      $scope.list1 = angular.copy($scope.rawScreens),
+      $scope.list2 = angular.copy($scope.list2 = [])
+    };
+
+    $scope.selectAll = function(from, to){
+      angular.forEach(from, function(item) {
+            to.push(item);
+        });
+        from.length = 0;
+    };
+
+    $scope.reset();
+
+        
+    });                
+</script>
+</head>
+<body>
+  <!-- menu -->
+  <div class="title-bar" data-responsive-toggle="example-menu" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">Menu</div>
+  </div>
+
+  <div class="top-bar" id="example-menu">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text"><a href="index.html">Home</a></li>
+        <li class="has-submenu">
+          <a href="#">Manage</a>
+          <ul class="submenu menu vertical" data-submenu>
+            <li><a href="ts.html">Test Suite</a></li>
+            <li><a href="tc.html">Test Case</a></li>
+          </ul>
+        </li>
+        <li><a href="execute.html">Execute</a></li>
+        <li><a href="stats.html">Stats</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div ng-app="sortableApp" ng-controller="sortableController" class="container">
+
+    <div class="row">
+      <fieldset class="large-6 columns fieldset">
+        <legend>Test Suites</legend>
+        <!-- list of test case -->
+        <button class="button" type="submit" value="Save" ng-click="selectAll(list1, list2)">Select All</button><br/>
+        <div class="large-12 columns">
+          <div class="drag-list" >
+           <div ui-sortable="sortableOptions" class="apps-container" ng-model="list1">
+
+            <div class="app" ng-repeat="app in list1">{{app.title}} {{app.subtitle}}</div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    
+    <!-- expandable list -->
+    <fieldset class="large-6 columns fieldset">
+      <legend>To Execute</legend>
+      <button class="button" type="submit" value="Execute">Execute</button>
+      <button class="button" type="reset" value="Stop">Stop</button>
+      <button class="button" type="reset" value="Reset" ng-click="reset()">Clear</button>
+      <div class="large-12 columns">
+        <div class="drag-list" >
+          <div ui-sortable="sortableOptions" class="apps-container" ng-model="list2">
+            <div class="app" ng-repeat="app in list2">{{app.title}}</div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/foundation/6.1.0/foundation.min.js"></script>
+<!-- initiate foundation modules -->
+<script>
+$(document).foundation();
+
+</script>
+</body>
+</html>
