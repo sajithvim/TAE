@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd 
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+						    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.sgx" />
+
+	<!-- Utils -->
+
+	<bean id="gson" class="com.google.gson.Gson" />
+
+	<bean id="executionManager" class="com.sgx.automation.xservice.execution.ExecutionManager" />
+
+	<util:map id="validators" map-class="java.util.HashMap">
+		<entry key="TIMESTAMP" value-ref="TIMESTAMP" />
+		<entry key="EXISTANCE" value-ref="EXISTANCE" />
+		<entry key="TEXT" value-ref="TEXT" />
+	</util:map>
+	
+	<bean id="TIMESTAMP" class="com.sgx.automation.xservice.validation.TimeStampValidator"/>
+	
+	<bean id="EXISTANCE" class="com.sgx.automation.xservice.validation.TimeStampValidator"/>
+	
+	<bean id="TEXT" class="com.sgx.automation.xservice.validation.TimeStampValidator"/>
+
+</beans>

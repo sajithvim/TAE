@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/data/mongo
+    http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+
+	<mongo:mongo id="mongoConnection" host="10.94.132.225" port="27017" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoConnection" />
+		<constructor-arg name="databaseName" value="automation-test"/>
+	</bean>
+
+	<mongo:repositories base-package="com.sgx.automation.repositories.mongo">
+		<mongo:repository id="testCasesRepository" mongo-template-ref="mongoTemplate"/>
+		<mongo:repository id="testSuiteRepository" mongo-template-ref="mongoTemplate"/>
+	</mongo:repositories>
+
+</beans>
