@@ -2,27 +2,26 @@ package com.sgx.automation.test.insertbasics;
 
 import javax.annotation.Resource;
 
+import org.glasscube.automation.insertion.service.InsertionService;
+import org.glasscube.automation.model.action.Action;
+import org.glasscube.automation.model.action.ActionEnum;
+import org.glasscube.automation.model.cases.BrowsersEnum;
+import org.glasscube.automation.model.cases.TestCase;
+import org.glasscube.automation.model.cases.TestSuite;
+import org.glasscube.automation.model.elements.ButtonElement;
+import org.glasscube.automation.model.elements.ContainerElement;
+import org.glasscube.automation.model.elements.HypeLinkElement;
+import org.glasscube.automation.model.elements.TextBoxElement;
+import org.glasscube.automation.model.steps.ElementEnum;
+import org.glasscube.automation.model.steps.Step;
+import org.glasscube.automation.model.validation.TimeStampValidation;
+import org.glasscube.automation.model.validation.ValidationEnum;
+import org.glasscube.automation.repositories.mongo.TestCasesRepository;
+import org.glasscube.automation.repositories.mongo.TestSuiteRepository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.sgx.automation.insertion.service.InsertionService;
-import com.sgx.automation.model.action.Action;
-import com.sgx.automation.model.action.ActionEnum;
-import com.sgx.automation.model.cases.BrowsersEnum;
-import com.sgx.automation.model.cases.TestCase;
-import com.sgx.automation.model.cases.TestSuite;
-import com.sgx.automation.model.elements.ButtonElement;
-import com.sgx.automation.model.elements.ContainerElement;
-import com.sgx.automation.model.elements.HypeLinkElement;
-import com.sgx.automation.model.elements.TextBoxElement;
-import com.sgx.automation.model.steps.ElementEnum;
-import com.sgx.automation.model.steps.Step;
-import com.sgx.automation.model.validation.TimeStampValidation;
-import com.sgx.automation.model.validation.ValidationEnum;
-import com.sgx.automation.repositories.mongo.TestCasesRepository;
-import com.sgx.automation.repositories.mongo.TestSuiteRepository;
 
 @Test
 @ContextConfiguration(
