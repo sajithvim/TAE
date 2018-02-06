@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Test Suite | Home</title>
+  <link rel="stylesheet" href="css/foundation.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular.min.js"></script>
+  <!-- for read and write cookies in browser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-cookies.min.js"></script>
+  <!-- for interaction support with RESTful via $resource service -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-resource.min.js"></script>
+  <!-- for deeplinking -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.min.js"></script>
+  <!-- sanitize html -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-sanitize.min.js"></script>
+  <!-- for touch devices -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-touch.min.js"></script>
+
+</head>
+<body>
+  <!-- menu -->
+  <div class="title-bar" data-responsive-toggle="example-menu" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">Menu</div>
+  </div>
+
+  <div class="top-bar" id="example-menu">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text"><a href="index.html">Home</a></li>
+        <li class="has-submenu">
+          <a href="#">Manage</a>
+          <ul class="submenu menu vertical" data-submenu>
+            <li><a href="ts.html">Test Suite</a></li>
+            <li><a href="tc.html">Test Case</a></li>
+          </ul>
+        </li>
+        <li><a href="execute.html">Execute</a></li>
+        <li><a href="stats.html">Stats</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- create and edit form -->
+  <div class="row">
+    <fieldset class="medium-6 columns fieldset">
+      <legend>Create/Edit Test Suite</legend>
+      <form data-abide novalidate>
+        <div data-abide-error class="alert callout" style="display: none;">
+          <p><i class="fi-alert"></i> There are some errors in your form.</p>
+        </div>
+        <!-- to use autoincrement based on number in the list -->
+        <div class="large-12 columns">
+          <label>ID
+            <input type="number" required pattern="number" readonly>
+          </label>
+        </div>
+        <!-- name -->
+        <div class="large-12 columns">
+          <label>Name
+            <input type="text" required>
+            <span class="form-error">
+              Please fill this in.
+            </span>
+          </label>
+        </div>
+        <!-- description -->
+        <div class="large-12 columns">
+          <label>Description
+            <textarea data-abide-ignore></textarea>
+          </label>
+        </div>
+        <!-- browser -->
+        <div class="large-6 columns">
+          <label>Browser
+            <select id="select" required>
+              <option value=""></option>
+              <option value="IE9">IE9</option>
+              <option value="IE11">IE11</option>
+              <option value="Chrome">Chrome</option>
+              <option value="Firefox">Firefox</option>
+              <option value="Android">Android</option>
+              <option value="iOS">iOS</option>
+            </select>
+            <span class="form-error">
+              Please fill this in.
+            </span>
+          </label>
+        </div>
+        <!-- environment -->
+        <div class="large-6 columns">
+          <label>Environment
+            <select id="select" required>
+              <option value=""></option>
+              <option value="QA">QA</option>
+              <option value="Production">Production</option>
+            </select>
+            <span class="form-error">
+              Please fill this in.
+            </span>
+          </label>
+        </div>
+        <!-- list of test case -->
+        <div class="large-12 columns">
+          <div class="tc-list" >
+           
+            <input id="checkbox1" class="button tc-list-btn" value="TC001" type="checkbox">
+            <label for="checkbox1">Test Case 1</label>
+            <input id="checkbox2" class="button tc-list-btn" value="TC002" type="checkbox">
+            <label for="checkbox2">Test Case 2</label>
+            <input id="checkbox3" class="button tc-list-btn" value="TC003" type="checkbox">
+            <label for="checkbox3">Test Case 3</label>
+            <input id="checkbox4" class="button tc-list-btn" value="TC004" type="checkbox">
+            <label for="checkbox4">Test Case 4</label>
+          </div>
+        </div>
+        <!-- form buttons -->
+        <div class="large-12 large-centered columns">
+          <button class="button" type="submit" value="Save">Save</button>
+          <button class="button" type="reset" value="Reset">Reset</button>
+        </div>
+      </form>
+    </fieldset>
+    <!-- padding column -->
+    <div class="medium-1 columns"></div>
+    <!-- expandable list -->
+    <fieldset class="medium-5 columns fieldset">
+      <legend>Test Suite List</legend>
+      <ul class="accordion" data-accordion data-allow-all-closed="true" data-accordion role="tablist">
+        <li class="accordion-item">
+          <!-- The tab title needs role="tab", an href, a unique ID, and aria-controls. -->
+          <a href="#panel1d" role="tab" class="accordion-title" id="panel1d-heading" aria-controls="panel1d">Home Page <span class="info badge">Chrome</span>&nbsp;<span class="info badge">Production</span></a>
+          <!-- The content pane needs an ID that matches the above href, role="tabpanel", data-tab-content, and aria-labelledby. -->
+          <div id="panel1d" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel1d-heading">
+            <div class="row">
+              <div class="large-12 columns"><span class="info label">Description:</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliq</div>
+              </div>
+              <div class="row">&nbsp;</div>
+              <div class="row">
+                <div class="large-12 columns">Tags: <span class="secondary label">Home</span>&nbsp;<span class="secondary label">Weekly</span>&nbsp;<span class="secondary label">Testing</span></div>
+              </div>
+              <div class="row">&nbsp;</div>
+              <div class="row large-12 columns button-group">
+                <button type="button" class="small success button">Edit</button>
+                <button type="button" class="alert small button">Delete</button>
+              </div>
+              
+            </li>
+            <li class="accordion-item">
+              <!-- The tab title needs role="tab", an href, a unique ID, and aria-controls. -->
+              <a href="#panel2d" role="tab" class="accordion-title" id="panel2d-heading" aria-controls="panel2d">Contact Page <span class="info badge">IE11</span>&nbsp;<span class="info badge">QA</span></a>
+              <!-- The content pane needs an ID that matches the above href, role="tabpanel", data-tab-content, and aria-labelledby. -->
+              <div id="panel2d" class="accordion-content" role="tabpanel" data-tab-content aria-labelledby="panel2d-heading">
+               <div class="row">
+                <div class="large-12 columns"><span class="info label">Description:</span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliq</div>
+                  <div class="large-12 columns"><span class="info label">Starting URL:</span> http://qaxwww.sgx.com</div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                  <div class="large-12 columns">Tags: <span class="secondary label">Contact</span>&nbsp;<span class="secondary label">Weekly</span>&nbsp;<span class="secondary label">Testing</span></div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row large-12 columns button-group">
+                  <button type="button" class="small success button">Edit</button>
+                  <button type="button" class="alert small button">Delete</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+        </fieldset>
+      </div>
+      
+
+      <script src="https://cdn.jsdelivr.net/foundation/6.1.0/foundation.min.js"></script>
+<!-- initiate foundation modules -->
+      <script>
+      $(document).foundation();
+
+      </script>
+    </body>
+    </html>
